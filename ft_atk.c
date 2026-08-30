@@ -333,8 +333,6 @@ void	ft_atk(char *nomperso)
 	int success = 0;
 	int defeat = 0;
 	int nspell = 1;
-	char buffer = 'a';
-	buffer += 0;
 	char targetbuffer;
 	char *enemyhpbuffer;
 	char *enemydefbuffer;
@@ -369,168 +367,169 @@ void	ft_atk(char *nomperso)
 	mob2.shape = 'O';
 	mob2.xa = 11 + rand() % 39;
 	mob2.ya = 11 + rand() % 19;
-	
+
 	while ((player.hp > 0) && (success != 1)/* Condition d'arrêt, à modifier pour la suite.*/)
 	{
 
 //////////////////////////////////////////////
 	
-	write(1, "\033[2J\033[H\033[?25l", 13); // Efface l'ecran du terminal et le curseur
-	ft_print_object('O', xa, ya);
-	ft_print_object('>', xa + 1, ya);
-	ft_print_map();
-	ft_show_enemy(mob1ptr);
-	ft_show_enemy(mob2ptr);
-    	while (c[0] != 99)
-    	{
-		ft_print_map();
-		if (ft_death_check(mob1ptr, xa, ya) || ft_death_check(mob2ptr, xa, ya))
-		{
-			while (c[0] != 101)
+		write(1, "\033[2J\033[H\033[?25l", 13); // Efface l'ecran du terminal et le curseur
+		print_key(c, 3);
+		write(1, "\nUse arrows to move, D to attack, E to make the enemy respawn.", 61);
+		ft_print_object('O', xa, ya);
+		ft_print_object('>', xa + 1, ya);
+		ft_show_enemy(mob1ptr);
+		ft_show_enemy(mob2ptr);
+	    	while (c[0] != 99)
+	    	{
+			ft_print_map();
+			if (ft_death_check(mob1ptr, xa, ya) || ft_death_check(mob2ptr, xa, ya))
+			{
+				while (c[0] != 101)
+				{
+					write(1, "\033[2J\033[H\033[?25l", 13); // Efface l'ecran du terminal et le curseur
+					ft_print_object(' ', 20, 20);
+					write(1, "YOU ARE DEAD - Press E to revive", 32);
+					get_key(c, 3);
+				}
+				xa = 15;
+				ya = 15;
+				write(1, "\033[2J\033[H\033[?25l", 13); // Efface l'ecran du terminal et le curseur
+				print_key(c, 3);
+				write(1, "\nUse arrows to move, D to attack, E to make the enemy respawn.", 61);
+				ft_print_object('O', xa, ya);
+				ft_print_object('>', xa + 1, ya);
+				ft_show_enemy(mob1ptr);
+				ft_show_enemy(mob2ptr);
+				ft_print_map();
+				fflush(stdout);//vide le tampon de sortie (merci google)	
+			}
+	        	get_key(c, 3);
+			if ((c[2] >= 65 && c[2] <= 68) && c[0] == 27)
 			{
 				write(1, "\033[2J\033[H\033[?25l", 13); // Efface l'ecran du terminal et le curseur
-				ft_print_object(' ', 20, 20);
-				write(1, "YOU ARE DEAD - Press E to revive", 32);
-				get_key(c, 3);
-			}
-			xa = 15;
-			ya = 15;
-			write(1, "\033[2J\033[H\033[?25l", 13); // Efface l'ecran du terminal et le curseur
-			print_key(c, 3);
-			write(1, "\nUse arrows to move, D to attack, E to make the enemy respawn.", 61);
-			ft_print_object('O', xa, ya);
-			ft_print_object('>', xa + 1, ya);
-			ft_show_enemy(mob1ptr);
-			ft_show_enemy(mob2ptr);
-			ft_print_map();
-			fflush(stdout);//vide le tampon de sortie (merci google)	
-		}
-        	get_key(c, 3);
-		if ((c[2] >= 65 && c[2] <= 68) && c[0] == 27)
-		{
-			write(1, "\033[2J\033[H\033[?25l", 13); // Efface l'ecran du terminal et le curseur
-			print_key(c, 3);
-			write(1, "\nUse arrows to move, D to attack, E to make the enemy respawn.", 61);
-			if (c[2] == 67) // Droite
+				print_key(c, 3);
+				write(1, "\nUse arrows to move, D to attack, E to make the enemy respawn.", 61);
+				if (c[2] == 67) // Droite
+				{
+					if (xa < 49)
+						xa++;
+					ft_print_object('O', xa, ya);
+					ft_print_object('>', xa + 1, ya);
+					droite = 1;
+					gauche = 0;
+					haut = 0;
+					bas = 0;
+				}
+				if (c[2] == 68) // Gauche
+				{
+					if (xa > 11)
+						xa--;
+					ft_print_object('<', xa - 1, ya);
+					ft_print_object('O', xa, ya);
+					gauche = 1;
+					droite = 0;
+					haut = 0;
+					bas = 0;
+				}
+				if (c[2] == 66) // Bas
+				{
+					if (ya < 40)
+						ya++;
+					ft_print_object('O', xa, ya);
+					ft_print_object('-', xa, ya + 1);
+					bas = 1;
+					droite = 0;
+					gauche = 0;
+					haut = 0;
+				}
+				if (c[2] == 65) // Haut
+				{
+					if (ya > 11)
+						ya--;
+					ft_print_object('-', xa, ya - 1);
+					ft_print_object('O', xa, ya);
+					haut = 1;
+					droite = 0;
+					gauche = 0;
+					bas = 0;
+				}
+			}	
+			if (c[0] == 100)
 			{
-				if (xa < 49)
-					xa++;
-				ft_print_object('O', xa, ya);
-				ft_print_object('>', xa + 1, ya);
-				droite = 1;
-				gauche = 0;
-				haut = 0;
-				bas = 0;
+				write(1, "\033[2J\033[H\033[?25l", 13); // Efface l'ecran du terminal et le curseur
+				print_key(c, 3);
+				if (droite)
+				{
+					ft_print_object('O', xa, ya);
+					ft_print_object('>', xa + 1, ya);
+					ft_print_object('-', xa + 3, ya);
+					ft_print_object('|', xa + 4, ya);
+					ft_print_object('=', xa + 5, ya);
+					ft_print_object('=', xa + 6, ya);
+					ft_print_object('>', xa + 7, ya);
+					ft_hit_enemy(mob1ptr, xa, ya);
+					ft_hit_enemy(mob2ptr, xa, ya);
+				}
+				if (gauche)
+				{
+					ft_print_object('-', xa - 3, ya);
+					ft_print_object('|', xa - 4, ya);
+					ft_print_object('=', xa - 5, ya);
+					ft_print_object('=', xa - 6, ya);
+					ft_print_object('<', xa - 7, ya);
+					ft_print_object('<', xa - 1, ya);
+					ft_print_object('O', xa, ya);
+					ft_hit_enemy(mob1ptr, xa, ya);
+					ft_hit_enemy(mob2ptr, xa, ya);
+				}
+				if (haut)
+				{
+					ft_print_object('^', xa, ya - 3);
+					ft_print_object('|', xa, ya - 2);
+					ft_print_object('-', xa, ya - 1);
+					ft_print_object('O', xa, ya);
+					ft_hit_enemy(mob1ptr, xa, ya);
+					ft_hit_enemy(mob2ptr, xa, ya);
+				}
+				if (bas)
+				{
+					ft_print_object('O', xa, ya);
+					ft_print_object('-', xa, ya + 1);
+					ft_print_object('|', xa, ya + 2);
+					ft_print_object('v', xa, ya + 3);
+					ft_hit_enemy(mob1ptr, xa, ya);
+					ft_hit_enemy(mob2ptr, xa, ya);
+				}
 			}
-			if (c[2] == 68) // Gauche
+			if (c[0] == 101 && mob1.alive == 0 && mob2.alive == 0)
 			{
-				if (xa > 11)
-					xa--;
-				ft_print_object('<', xa - 1, ya);
-				ft_print_object('O', xa, ya);
-				gauche = 1;
-				droite = 0;
-				haut = 0;
-				bas = 0;
-			}
-			if (c[2] == 66) // Bas
-			{
-				if (ya < 40)
-					ya++;
-				ft_print_object('O', xa, ya);
-				ft_print_object('-', xa, ya + 1);
-				bas = 1;
-				droite = 0;
-				gauche = 0;
-				haut = 0;
-			}
-			if (c[2] == 65) // Haut
-			{
-				if (ya > 11)
-					ya--;
-				ft_print_object('-', xa, ya - 1);
-				ft_print_object('O', xa, ya);
-				haut = 1;
-				droite = 0;
-				gauche = 0;
-				bas = 0;
-			}
-		}	
-		if (c[0] == 100)
-		{
-			write(1, "\033[2J\033[H\033[?25l", 13); // Efface l'ecran du terminal et le curseur
-			print_key(c, 3);
-			if (droite)
-			{
-				ft_print_object('O', xa, ya);
-				ft_print_object('>', xa + 1, ya);
-				ft_print_object('-', xa + 3, ya);
-				ft_print_object('|', xa + 4, ya);
-				ft_print_object('=', xa + 5, ya);
-				ft_print_object('=', xa + 6, ya);
-				ft_print_object('>', xa + 7, ya);
-				ft_hit_enemy(mob1ptr, xa, ya);
-				ft_hit_enemy(mob2ptr, xa, ya);
-			}
-			if (gauche)
-			{
-				ft_print_object('-', xa - 3, ya);
-				ft_print_object('|', xa - 4, ya);
-				ft_print_object('=', xa - 5, ya);
-				ft_print_object('=', xa - 6, ya);
-				ft_print_object('<', xa - 7, ya);
-				ft_print_object('<', xa - 1, ya);
-				ft_print_object('O', xa, ya);
-				ft_hit_enemy(mob1ptr, xa, ya);
-				ft_hit_enemy(mob2ptr, xa, ya);
-			}
-			if (haut)
-			{
-				ft_print_object('^', xa, ya - 3);
-				ft_print_object('|', xa, ya - 2);
-				ft_print_object('-', xa, ya - 1);
-				ft_print_object('O', xa, ya);
-				ft_hit_enemy(mob1ptr, xa, ya);
-				ft_hit_enemy(mob2ptr, xa, ya);
-			}
-			if (bas)
-			{
-				ft_print_object('O', xa, ya);
-				ft_print_object('-', xa, ya + 1);
-				ft_print_object('|', xa, ya + 2);
-				ft_print_object('v', xa, ya + 3);
-				ft_hit_enemy(mob1ptr, xa, ya);
-				ft_hit_enemy(mob2ptr, xa, ya);
-			}
-		}
-		if (c[0] == 101 && mob1.alive == 0 && mob2.alive == 0)
-		{
-			mob1.alive = 1;
-			mob1.xa = 11 + rand() % 39;
-			mob1.ya = 11 + rand() % 19;
-			while (mob1.xa == xa && mob1.ya == ya)
-			{
+				mob1.alive = 1;
 				mob1.xa = 11 + rand() % 39;
 				mob1.ya = 11 + rand() % 19;
-			}
-
-			mob2.alive = 1;
-			mob2.xa = 11 + rand() % 39;
-			mob2.ya = 11 + rand() % 19;
-			while (mob2.xa == xa && mob2.ya == ya)
-			{
+				while (mob1.xa == xa && mob1.ya == ya)
+				{
+					mob1.xa = 11 + rand() % 39;
+					mob1.ya = 11 + rand() % 19;
+				}
+	
+				mob2.alive = 1;
 				mob2.xa = 11 + rand() % 39;
 				mob2.ya = 11 + rand() % 19;
+				while (mob2.xa == xa && mob2.ya == ya)
+				{
+					mob2.xa = 11 + rand() % 39;
+					mob2.ya = 11 + rand() % 19;
+				}
 			}
-		}
-		if (mob1.alive == 1)
-			ft_show_enemy(mob1ptr);
-		if (mob2.alive == 1)
-			ft_show_enemy(mob2ptr);
-		fflush(stdout);//vide le tampon de sortie (merci google)	
-    	}	
-    	tcsetattr(STDIN_FILENO, TCSAFLUSH, &old);
-	write(1, "\033[2J\033[H\033[?25l", 13); // Efface l'ecran du terminal et le curseur
+			if (mob1.alive == 1)
+				ft_show_enemy(mob1ptr);
+			if (mob2.alive == 1)
+				ft_show_enemy(mob2ptr);
+				fflush(stdout);//vide le tampon de sortie (merci google)	
+    		}	
+    		tcsetattr(STDIN_FILENO, TCSAFLUSH, &old);
+		write(1, "\033[2J\033[H\033[?25l", 13); // Efface l'ecran du terminal et le curseur
 
 ////////////////////////////////////////
 

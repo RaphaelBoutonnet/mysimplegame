@@ -33,6 +33,7 @@ typedef struct mobs {
 
 #endif
 
+void	ft_wait_one_sec(void);
 void	ft_put_str(char *str);
 char	*ft_itoa(int nb);
 void	ft_enemy_atk(Mob *enemyptr, Perso *playerptr);
@@ -42,4 +43,3 @@ void	ft_atk(char *nomperso);
 void	ft_lvl_up(void);
 void	ft_show_exp(Perso *playerptr);
 void	ft_exp(int enemynumber, Perso *playerptr);
-void	ft_wait_one_sec(void);

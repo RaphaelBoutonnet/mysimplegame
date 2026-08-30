@@ -1,7 +1,7 @@
-CC = ccg
-CFLAGS = -I.
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror -g -I.
 DEPS = wom.h
-SOURCES = main.c ft_anim.c ft_atk.c ft_enemy_atk.c ft_exp.c ft_itoa.c ft_lvl_up.c ft_nom.c ft_put_str.c ft_show_exp.c wom.h
+SOURCES = main.c ft_anim.c ft_atk.c ft_enemy_atk.c ft_exp.c ft_itoa.c ft_lvl_up.c ft_nom.c ft_put_str.c ft_show_exp.c
 OBJECTS = $(SOURCES:.c=.o)
 TARGET = a.out
 
