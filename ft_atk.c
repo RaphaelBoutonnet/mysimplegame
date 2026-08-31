@@ -370,9 +370,6 @@ void	ft_atk(char *nomperso)
 
 	while ((player.hp > 0) && (success != 1)/* Condition d'arrêt, à modifier pour la suite.*/)
 	{
-
-//////////////////////////////////////////////
-	
 		write(1, "\033[2J\033[H\033[?25l", 13); // Efface l'ecran du terminal et le curseur
 		print_key(c, 3);
 		write(1, "\nUse arrows to move, D to attack, E to make the enemy respawn.", 61);
@@ -526,8 +523,8 @@ void	ft_atk(char *nomperso)
 				ft_show_enemy(mob1ptr);
 			if (mob2.alive == 1)
 				ft_show_enemy(mob2ptr);
-				fflush(stdout);//vide le tampon de sortie (merci google)	
-    		}	
+			fflush(stdout);//vide le tampon de sortie (merci google)	
+    		}
     		tcsetattr(STDIN_FILENO, TCSAFLUSH, &old);
 		write(1, "\033[2J\033[H\033[?25l", 13); // Efface l'ecran du terminal et le curseur
 
